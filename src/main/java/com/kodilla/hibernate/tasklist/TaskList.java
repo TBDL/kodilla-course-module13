@@ -7,9 +7,8 @@ import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Entity
-@Table(name = "TASKLIST")
+@Table(name = "TASKLISTS")
 public class TaskList {
-
     private int id;
     private String listName;
     private String description;
@@ -44,11 +43,10 @@ public class TaskList {
 
     @OneToMany(
             targetEntity = Task.class,
-            mappedBy = "tasklist",
+            mappedBy = "taskList",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-
     public List<Task> getTasks() {
         return tasks;
     }

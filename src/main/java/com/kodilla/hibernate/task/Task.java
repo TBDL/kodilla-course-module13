@@ -33,7 +33,7 @@ public final class Task {
         return id;
     }
 
-    @Column(name = "DECRIPTION")
+    @Column(name = "DESCRIPTION")
     public String getDescription() {
         return description;
     }
