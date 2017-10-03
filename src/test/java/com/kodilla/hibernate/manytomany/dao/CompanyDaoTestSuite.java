@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CompanyDaoTestSuite {
     @Autowired
-    CompanyDao companyDao;
+    private CompanyDao companyDao;
+    @Autowired
+    private EmployeeDao employeeDao;
 
     @Test
     public void testSaveManyToMany(){
@@ -60,4 +64,35 @@ public class CompanyDaoTestSuite {
                 //do nothing
             }
         }
+
+    @Test
+    public void testRetrieveEmployeeByLastName() {
+        //Given
+        Employee employee = new Employee("Jan", "Nowak");
+        String lastname = employee.getLastname();
+        //When
+        employeeDao.save(employee);
+        int id = employee.getId();
+        List<Employee> readList = employeeDao.retrieveEmployeeByLastName(lastname);
+        //Then
+        Assert.assertEquals(1, readList.size());
+        //CleanUp
+        employeeDao.delete(id);
     }
+
+    @Test
+    public void testRetrieveCompanyByName() {
+        //Given
+        Company company = new Company("softwareMachineId");
+        Company company2 = new Company("dataMaestersId");
+        //When
+        companyDao.save(company);
+        companyDao.save(company2);
+        List<Company> readList = companyDao.retrieveCompanyByName("dat");
+        //Then
+        Assert.assertEquals(1, readList.size());
+        Assert.assertEquals("dataMaestersId", readList.get(0).getName());
+        //CleanUp
+        companyDao.deleteAll();
+    }
+}

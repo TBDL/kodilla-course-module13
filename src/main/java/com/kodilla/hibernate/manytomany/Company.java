@@ -4,6 +4,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
+@NamedNativeQueries({
+    @NamedNativeQuery(
+        name = "Company.retrieveCompanyByName",
+        query = "SELECT * FROM COMPANIES " +
+                "WHERE SUBSTR(COMPANY_NAME, 1, 3) = :COMPANY_NAME",
+        resultClass = Company.class
+    )
+})
+
 @Entity
 @Table(name = "COMPANIES")
 public class Company {
